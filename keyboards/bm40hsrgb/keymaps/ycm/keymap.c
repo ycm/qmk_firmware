@@ -6,13 +6,10 @@
 enum layers {
   _qwerty,
   _symbol,
-  _shrtct, // and window manager
+  _lshort, // and window manager
+  _rshort,
   _functn, // mouse + media controls
   _keybrd
-};
-
-enum custom_strings {
-  sclnspc
 };
 
 #define g_left LGUI(KC_LEFT)
@@ -66,8 +63,9 @@ enum custom_strings {
 #define g_9 LGUI(KC_9)
     
 #define SYMBOL MO(_symbol)
-#define SHRTCT MO(_shrtct)
+#define LSHORT MO(_lshort)
 #define FUNCTN MO(_functn)
+#define RSHORT MO(_rshort)
 
 #define RGB_BRGT_PCT 50
 void set_rgb(int led_id, int r, int g, int b) {
@@ -78,9 +76,8 @@ void set_rgb(int led_id, int r, int g, int b) {
   rgb_matrix_set_color(led_id, r_adj,  g_adj, b_adj);
 }
 
-
 static bool lgui_is_pressed = false;
-static bool lctl_is_pressed = false;
+// static bool lctl_is_pressed = false;
 static bool scln_is_pressed = false;
 static bool arrow_keys_were_pressed = false;
 
@@ -150,7 +147,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_SCLN:
       scln_is_pressed = record->event.pressed;
-      if (scln_is_pressed) arrow_keys_were_pressed = false;
+      if (scln_is_pressed) {
+        arrow_keys_were_pressed = false;
+      }
       else if (!(arrow_keys_were_pressed)) {
         register_code(KC_SCLN);
         unregister_code(KC_SCLN);
@@ -161,11 +160,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       lgui_is_pressed = record->event.pressed;
       press_or_release_key(KC_LGUI, lgui_is_pressed);
       return false;
+    
+    // case KC_RGUI:
+    //   rgui_is_pressed = record->event.pressed;
+    //   press_or_release_key(KC_RGUI, rgui_is_pressed);
+    //   return false;
 
-    case KC_LCTL:
-      lctl_is_pressed = record->event.pressed;
-      press_or_release_key(KC_LCTL, lctl_is_pressed);
-      return false;
+    // case KC_LCTL:
+    //   lctl_is_pressed = record->event.pressed;
+    //   press_or_release_key(KC_LCTL, lctl_is_pressed);
+    //   return false;
 
     default:
       return true; // Process all other keycodes normally
@@ -174,7 +178,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool only_default_layer_is_on(void) {
   return !(IS_LAYER_ON(_symbol) ||
-      IS_LAYER_ON(_shrtct) ||
+      IS_LAYER_ON(_lshort) ||
+      IS_LAYER_ON(_rshort) ||
       IS_LAYER_ON(_functn) ||
       IS_LAYER_ON(_keybrd));
 }
@@ -185,48 +190,14 @@ bool only_default_layer_is_on(void) {
 // 36 37 38 39 40  41   42 43 44 45 46 
 void rgb_matrix_indicators_user(void) {
   if (only_default_layer_is_on() && lgui_is_pressed) {
-    // tab
-    set_rgb(0, 0, 7, 9);
-    // q
-    set_rgb(1, 9, 0, 0);
-    // w
-    set_rgb(2, 9, 0, 0);
-    // r
-    set_rgb(4, 9, 3, 0);
-    // t
-    set_rgb(5, 0, 7, 9);
-    // u
-    set_rgb(7, 9, 5, 0);
-    // i
-    set_rgb(8, 9, 5, 0);
-    // o
-    set_rgb(9, 1, 9, 1);
-    // a
-    set_rgb(13, 0, 7, 9);
-    // s
-    set_rgb(14, 1, 9, 1);
-    // f
-    set_rgb(16, 1, 9, 1);
-    // h
-    set_rgb(18, 0, 7, 9);
-    // k
-    set_rgb(18, 1, 9, 1);
-    // l
-    set_rgb(18, 0, 7, 9);
-    // z
-    set_rgb(25, 9, 3, 0);
-    // x
-    set_rgb(26, 9, 3, 0);
-    // c
-    set_rgb(27, 9, 3, 0);
-    // v
-    set_rgb(28, 9, 3, 0);
-    // b
-    set_rgb(29, 9, 5, 0);
-    // n
-    set_rgb(30, 0, 7, 9);
+    set_rgb(1, 9, 0, 0); // q
+    set_rgb(2, 9, 0, 0); // w
+    set_rgb(5, 0, 7, 9); // t
+    set_rgb(14, 1, 9, 1); // s
+    set_rgb(30, 0, 7, 9); // n
   }
   
+  /*
   if (only_default_layer_is_on() && lctl_is_pressed) {
     for (int i = 0; i <= 11; i++) {
       set_rgb(i, 9, 1, 1);
@@ -254,6 +225,7 @@ void rgb_matrix_indicators_user(void) {
         set_rgb(i, 1, 9, 1);
     }
   }
+  */
 
   if (only_default_layer_is_on() && scln_is_pressed) {
     for (int i = 18; i <= 21; i++) {
@@ -287,7 +259,7 @@ void rgb_matrix_indicators_user(void) {
 
   }
 
-  if (IS_LAYER_ON(_shrtct)) {
+  if (IS_LAYER_ON(_lshort)) {
     // cmd + numbers
     for (int i = 1; i <= 3; i++) {
       set_rgb(i, 9, 2, 2);
@@ -315,6 +287,11 @@ void rgb_matrix_indicators_user(void) {
 
     //delete key
     set_rgb(11, 9, 2, 0);
+  }
+
+  if (IS_LAYER_ON(_rshort)) {
+    set_rgb(9, 0, 7, 9);
+    set_rgb(10, 0, 7, 9);
   }
 
   if (IS_LAYER_ON(_functn)) {
@@ -376,7 +353,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    KC_LCTL, KC_LALT, KC_LGUI, SHRTCT,  FUNCTN,  KC_SPC,           SYMBOL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  RSHORT,  KC_RGUI, KC_UP,   KC_RGHT
 ),
 
  /* _symbol
@@ -398,7 +375,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, KC_0,    _______, _______,          _______, _______, _______, _______, _______
 ),
 
- /* _shrtct
+ /* _lshort
   * Hotkeys
   * ,-----------------------------------------------------------------------------------.
   * |      |  ⌘7  |  ⌘8  |  ⌘9  |      |      |      |      |  NW  |  N   |  NE  | Del  |  
@@ -410,11 +387,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * | Lang |      | Lang |      |      |     Max     |      | L1/3 | C1/3 | R1/3 |      |
   * `-----------------------------------------------------------------------------------'
   */
-[_shrtct] = LAYOUT_planck_mit(
+[_lshort] = LAYOUT_planck_mit(
     _______, g_1,     g_2,     g_3,     _______, _______, _______, _______, ca_u,    ca_up,   ca_i,    KC_DEL,
     _______, g_4,     g_5,     g_6,     _______, _______, _______, cag_left,ca_left, ca_c,    ca_rght, cag_rght,
     _______, g_7,     g_8,     g_9,     _______, _______, _______, ca_e,    ca_j,    ca_down, ca_k,    ca_t,
     c_spc,   _______, ca_spc,  _______, _______, ca_ent,           _______, ca_d,    ca_f,    ca_g,    _______
+),
+
+ /* _rshort
+  * Hotkeys
+  * ,-----------------------------------------------------------------------------------.
+  * |      |      |      |      |      |      |      |      |      |  ⌘-  |  ⌘=  |      |  
+  * |------+------+------+------+------+------+------+------+------+------+------+------|
+  * |      |      |      |      |      |      |      |      |      |      |      |      |
+  * |------+------+------+------+------+------+------+------+------+------+------+------|
+  * |      |      |      |      |      |      |      |      |      |      |      |      |
+  * |------+------+------+------+------+------+------+------+------+------+------+------|
+  * |      |      |      |      |      |             |      |      |      |      |      |
+  * `-----------------------------------------------------------------------------------'
+  */
+[_rshort] = LAYOUT_planck_mit(
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, g_mins,  g_eql,   _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______
 ),
 
 /* _functn
