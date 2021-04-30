@@ -5,7 +5,6 @@
 
 enum layers {
   _qwerty,
-  _arrows,
   _symbol,
   _shrtct, // and window manager
   _functn, // mouse + media controls
@@ -65,9 +64,7 @@ enum custom_strings {
 #define g_7 LGUI(KC_7)
 #define g_8 LGUI(KC_8)
 #define g_9 LGUI(KC_9)
-
-#define my_scln LT(_arrows, KC_SCLN)
-
+    
 #define SYMBOL MO(_symbol)
 #define SHRTCT MO(_shrtct)
 #define FUNCTN MO(_functn)
@@ -176,8 +173,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool only_default_layer_is_on(void) {
-  return !(IS_LAYER_ON(_arrows) ||
-      IS_LAYER_ON(_symbol) ||
+  return !(IS_LAYER_ON(_symbol) ||
       IS_LAYER_ON(_shrtct) ||
       IS_LAYER_ON(_functn) ||
       IS_LAYER_ON(_keybrd));
@@ -381,25 +377,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
     KC_LCTL, KC_LALT, KC_LGUI, SHRTCT,  FUNCTN,  KC_SPC,           SYMBOL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
-
- /* _arrows
-  * Numbers and symbols
-  * ,-----------------------------------------------------------------------------------.
-  * |      |      |      |      |      |      |      |      |      |      |      |      |
-  * |------+------+------+------+------+------+------+------+------+------+------+------|
-  * |      |      |      |      |      |      | Left | Down |  Up  |Right |      |      |
-  * |------+------+------+------+------+------+------+------+------+------+------+------|
-  * |      |      |      |      |      |      |      |      |      |      |      |      |
-  * |------+------+------+------+------+------+------+------+------+------+------+------|
-  * |      |      |      |      |      |             |      |      |      |      |      |
-  * `-----------------------------------------------------------------------------------'
-  */
-[_arrows] = LAYOUT_planck_mit(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, sclnspc,          _______, _______, _______, _______, _______
 ),
 
  /* _symbol
