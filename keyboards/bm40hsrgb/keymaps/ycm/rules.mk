@@ -1,6 +1,6 @@
 #rules
 
-CONSOLE_ENABLE = yes # debuggign
+# CONSOLE_ENABLE = yes # debugging
 
 MOUSEKEY_ENABLE = yes # Mouse keys
 RGB_MATRIX_ENABLE = yes

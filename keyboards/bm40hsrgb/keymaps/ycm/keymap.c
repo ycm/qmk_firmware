@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 #include "rgb_helpers.h"
 #include "key_definitions.h"
+#include "arrow_handlers.h"
 
 enum layers {
   _qwerty,
@@ -16,91 +17,22 @@ enum layers {
 
 static bool lgui_is_pressed = false;
 // static bool lctl_is_pressed = false;
-static bool scln_is_pressed = false;
-static bool arrow_keys_were_pressed = false;
-static uint16_t scln_pressed_time;
+bool scln_is_pressed = false;
+bool arrow_keys_were_pressed = false;
+uint16_t scln_pressed_time;
 
-void press_or_release_key(uint16_t keycode, bool is_pressed) {
-  if (is_pressed) register_code(keycode);
-  else unregister_code(keycode);
-}
-
-#define SCLN_HOLD_TIMEOUT_MS 500
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-
-    case KC_H:
-      if (record->event.pressed) {
-        if (scln_is_pressed) {
-          register_code(KC_LEFT);
-          arrow_keys_were_pressed = true;
-        }
-        else register_code(KC_H);
-      }
-      else {
-        unregister_code(KC_LEFT);
-        unregister_code(KC_H);
-      }
-      return false;
-
-    case KC_J:
-      if (record->event.pressed) {
-        if (scln_is_pressed) {
-          register_code(KC_DOWN);
-          arrow_keys_were_pressed = true;
-        }
-        else register_code(KC_J);
-      }
-      else {
-        unregister_code(KC_DOWN);
-        unregister_code(KC_J);
-      }
-      return false;
-    
-    case KC_K:
-      if (record->event.pressed) {
-        if (scln_is_pressed) {
-          register_code(KC_UP);
-          arrow_keys_were_pressed = true;
-        }
-        else register_code(KC_K);
-      }
-      else {
-        unregister_code(KC_UP);
-        unregister_code(KC_K);
-      }
-      return false;
-    
-    case KC_L:
-      if (record->event.pressed) {
-        if (scln_is_pressed) {
-          register_code(KC_RGHT);
-          arrow_keys_were_pressed = true;
-        }
-        else register_code(KC_L);
-      }
-      else {
-        unregister_code(KC_RGHT);
-        unregister_code(KC_L);
-      }
-      return false;
-
-    case KC_SCLN:
-      scln_is_pressed = record->event.pressed;
-      if (scln_is_pressed) {
-        scln_pressed_time = timer_read();
-        arrow_keys_were_pressed = false;
-      }
-      else if (!(arrow_keys_were_pressed) &&
-                (timer_read() - scln_pressed_time < SCLN_HOLD_TIMEOUT_MS)) {
-
-        register_code(KC_SCLN);
-        unregister_code(KC_SCLN);
-      }
-      return false;
-
-    case KC_LGUI:
-      lgui_is_pressed = record->event.pressed;
+    case KC_H: return handle_arrow_key(record->event.pressed, KC_H, KC_LEFT, KC_NO);
+    case KC_J: return handle_arrow_key(record->event.pressed, KC_J, KC_DOWN, KC_NO);
+    case KC_K: return handle_arrow_key(record->event.pressed, KC_K, KC_UP, KC_NO);
+    case KC_L: return handle_arrow_key(record->event.pressed, KC_L, KC_RIGHT, KC_NO);
+    case KC_Y: return handle_arrow_key(record->event.pressed, KC_Y, KC_LEFT, KC_LGUI);
+    case KC_O: return handle_arrow_key(record->event.pressed, KC_O, KC_RIGHT, KC_LGUI);
+    case KC_U: return handle_arrow_key(record->event.pressed, KC_U, KC_LEFT, KC_LALT);
+    case KC_I: return handle_arrow_key(record->event.pressed, KC_I, KC_RIGHT, KC_LALT);
+    case KC_SCLN: return handle_semicolon_key(record->event.pressed);
+    case KC_LGUI: lgui_is_pressed = record->event.pressed;
     
     // case KC_RGUI:
     //   rgui_is_pressed = record->event.pressed;
@@ -112,8 +44,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //   press_or_release_key(KC_LCTL, lctl_is_pressed);
     //   return false;
 
-    default:
-      return true; // Process all other keycodes normally
+    default: return true; // Process all other keycodes normally
   }
 }
 
@@ -255,4 +186,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _symbol, _functn, _keybrd);
 }
-
