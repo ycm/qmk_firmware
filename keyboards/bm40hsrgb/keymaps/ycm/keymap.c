@@ -98,8 +98,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else register_code(KC_H);
       }
       else {
-        if (scln_is_pressed) unregister_code(KC_LEFT);
-        else unregister_code(KC_H);
+        unregister_code(KC_LEFT);
+        unregister_code(KC_H);
       }
       return false;
 
@@ -112,8 +112,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else register_code(KC_J);
       }
       else {
-        if (scln_is_pressed) unregister_code(KC_DOWN);
-        else unregister_code(KC_J);
+        unregister_code(KC_DOWN);
+        unregister_code(KC_J);
       }
       return false;
     
@@ -126,8 +126,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else register_code(KC_K);
       }
       else {
-        if (scln_is_pressed) unregister_code(KC_UP);
-        else unregister_code(KC_K);
+        unregister_code(KC_UP);
+        unregister_code(KC_K);
       }
       return false;
     
@@ -140,8 +140,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         else register_code(KC_L);
       }
       else {
-        if (scln_is_pressed) unregister_code(KC_RGHT);
-        else unregister_code(KC_L);
+        unregister_code(KC_RGHT);
+        unregister_code(KC_L);
       }
       return false;
 
