@@ -45,12 +45,16 @@ void _scln_rgb_on(void) {
     set_rgb(i, 9, 9, 9);
     set_rgb(i + 12, 9, 9, 9);
   }
+  set_rgb(2, 9, 9, 9);
+  set_rgb(13, 9, 9, 9);
+  set_rgb(14, 9, 9, 9);
+  set_rgb(15, 9, 9, 9);
 }
 
 void _symbol_rgb_on(void) {
   // numpad
-  set_rgb(39, 0, 7, 9);
-  for (int i = 1; i <= 3; i++) {;;
+  set_rgb(40, 0, 7, 9);
+  for (int i = 2; i <= 4; i++) {;;
     set_rgb(i, 0, 7, 9);
     set_rgb(i + 12, 0, 7, 9);
     set_rgb(i + 24, 0, 7, 9);
@@ -69,12 +73,12 @@ void _symbol_rgb_on(void) {
   set_rgb(20, 9, 1, 1);
   set_rgb(19, 1, 9, 1);
   set_rgb(6, 0, 7, 9);
-  set_rgb(12, 0, 7, 9);
+  set_rgb(1, 0, 7, 9);
 }
 
 void _lshort_rgb_on(void) {
   // cmd + numbers
-  for (int i = 1; i <= 3; i++) {
+  for (int i = 2; i <= 4; i++) {
     set_rgb(i, 9, 2, 2);
     set_rgb(i + 12, 9, 2, 2);
     set_rgb(i + 24, 9, 2, 2);
@@ -143,5 +147,5 @@ void _keybrd_rgb_on(void) {
   }
   set_rgb(2, 10, 0, 0);
   set_rgb(3, 10, 0, 0);
-  set_rgb(46, 10, 0, 0);
+  set_rgb(41, 10, 0, 0);
 }

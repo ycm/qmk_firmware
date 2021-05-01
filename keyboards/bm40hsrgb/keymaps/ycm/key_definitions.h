@@ -54,3 +54,4 @@
 #define LSHORT MO(_lshort)
 #define FUNCTN MO(_functn)
 #define RSHORT MO(_rshort)
+#define KEYBRD MO(_keybrd)

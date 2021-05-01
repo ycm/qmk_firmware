@@ -32,6 +32,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_O: return handle_arrow_key(record->event.pressed, KC_O, KC_RIGHT, KC_LGUI);
     case KC_U: return handle_arrow_key(record->event.pressed, KC_U, KC_LEFT, KC_LALT);
     case KC_I: return handle_arrow_key(record->event.pressed, KC_I, KC_RIGHT, KC_LALT);
+    case KC_W: return handle_arrow_key(record->event.pressed, KC_W, KC_HOME, KC_NO);
+    case KC_A: return handle_arrow_key(record->event.pressed, KC_A, KC_PGUP, KC_NO);
+    case KC_S: return handle_arrow_key(record->event.pressed, KC_S, KC_END, KC_NO);
+    case KC_D: return handle_arrow_key(record->event.pressed, KC_D, KC_PGDN, KC_NO);
     case KC_SCLN: return handle_semicolon_key(record->event.pressed);
     case KC_LGUI:
       lgui_is_pressed = record->event.pressed;
@@ -85,7 +89,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  RSHORT,  KC_RGUI, KC_LEFT, KC_RGHT
+    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  RSHORT,  KC_RGUI, KC_LEFT, KEYBRD
 ),
 
  /* _symbol
@@ -101,10 +105,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * `-----------------------------------------------------------------------------------'
   */
 [_symbol] = LAYOUT_planck_mit(
-    _______, KC_1,    KC_2,    KC_3,    _______, _______, KC_HASH, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,  _______,
-    KC_GRV,  KC_4,    KC_5,    KC_6,    _______, _______, KC_CIRC, KC_DLR,  KC_ASTR, KC_LBRC, KC_RBRC, KC_BSLS,
-    _______, KC_7,    KC_8,    KC_9,    _______, _______, KC_LT,   KC_GT,   _______, _______, _______, _______,
-    _______, _______, _______, KC_0,    _______, _______,          _______, _______, _______, _______, _______
+    _______, KC_GRV,  KC_1,    KC_2,    KC_3,    _______, KC_HASH, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,  _______,
+    _______, _______, KC_4,    KC_5,    KC_6,    _______, KC_CIRC, KC_DLR,  KC_ASTR, KC_LBRC, KC_RBRC, KC_BSLS,
+    _______, _______, KC_7,    KC_8,    KC_9,    _______, KC_LT,   KC_GT,   _______, _______, _______, _______,
+    _______, _______, _______, _______, KC_0,    _______,          _______, _______, _______, _______, _______
 ),
 
  /* _lshort
@@ -120,9 +124,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * `-----------------------------------------------------------------------------------'
   */
 [_lshort] = LAYOUT_planck_mit(
-    _______, g_1,     g_2,     g_3,     _______, _______, _______, _______, ca_u,    ca_up,   ca_i,    KC_DEL,
-    _______, g_4,     g_5,     g_6,     _______, _______, _______, cag_left,ca_left, ca_c,    ca_rght, cag_rght,
-    _______, g_7,     g_8,     g_9,     _______, _______, _______, ca_e,    ca_j,    ca_down, ca_k,    ca_t,
+    _______, _______, g_1,     g_2,     g_3,     _______, _______, _______, ca_u,    ca_up,   ca_i,    KC_DEL,
+    _______, _______, g_4,     g_5,     g_6,     _______, _______, cag_left,ca_left, ca_c,    ca_rght, cag_rght,
+    _______, _______, g_7,     g_8,     g_9,     _______, _______, ca_e,    ca_j,    ca_down, ca_k,    ca_t,
     c_spc,   _______, ca_spc,  _______, _______, ca_ent,           _______, ca_d,    ca_f,    ca_g,    _______
 ),
 
@@ -178,11 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RGB_HUD, RGB_HUI, RGB_SPD, RGB_SPI, _______, _______, DEBUG,   RESET,   _______, _______, _______, _______,
     RGB_SAD, RGB_SAI, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     RGB_VAD, RGB_VAI, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    RGB_RMOD,RGB_MOD, _______, _______, _______, _______,          _______, _______, _______, _______, RGB_TOG
+    RGB_RMOD,RGB_MOD, _______, _______, _______, RGB_TOG,          _______, _______, _______, _______, _______
 )
 
 };
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _symbol, _functn, _keybrd);
-}
