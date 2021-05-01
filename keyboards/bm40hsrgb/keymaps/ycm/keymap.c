@@ -16,7 +16,8 @@ enum layers {
 };
 
 static bool lgui_is_pressed = false;
-// static bool lctl_is_pressed = false;
+static bool rgui_is_pressed = false;
+static bool lctl_is_pressed = false;
 bool scln_is_pressed = false;
 bool arrow_keys_were_pressed = false;
 uint16_t scln_pressed_time;
@@ -32,19 +33,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_U: return handle_arrow_key(record->event.pressed, KC_U, KC_LEFT, KC_LALT);
     case KC_I: return handle_arrow_key(record->event.pressed, KC_I, KC_RIGHT, KC_LALT);
     case KC_SCLN: return handle_semicolon_key(record->event.pressed);
-    case KC_LGUI: lgui_is_pressed = record->event.pressed;
-    
-    // case KC_RGUI:
-    //   rgui_is_pressed = record->event.pressed;
-    //   press_or_release_key(KC_RGUI, rgui_is_pressed);
-    //   return false;
+    case KC_LGUI:
+      lgui_is_pressed = record->event.pressed;
+      return true;
+    case KC_RGUI:
+      rgui_is_pressed = record->event.pressed;
+      return true;
+    case KC_LCTL:
+      lctl_is_pressed = record->event.pressed;
+      return true;
 
-    // case KC_LCTL:
-    //   lctl_is_pressed = record->event.pressed;
-    //   press_or_release_key(KC_LCTL, lctl_is_pressed);
-    //   return false;
-
-    default: return true; // Process all other keycodes normally
+    default: return true;
   }
 }
 
@@ -58,7 +57,8 @@ bool only_default_layer_is_on(void) {
 
 void rgb_matrix_indicators_user(void) {
   if (only_default_layer_is_on() && lgui_is_pressed) _lgui_rgb_on();
-  // if (only_default_layer_is_on() && lctl_is_pressed) _lctl_rgb_on();
+  if (only_default_layer_is_on() && rgui_is_pressed) _rgui_rgb_on();
+  if (only_default_layer_is_on() && lctl_is_pressed) _lctl_rgb_on();
   if (only_default_layer_is_on() && scln_is_pressed) _scln_rgb_on();
   if (IS_LAYER_ON(_symbol)) _symbol_rgb_on();
   if (IS_LAYER_ON(_lshort)) _lshort_rgb_on();
@@ -78,14 +78,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |------+------+------+------+------+------+------+------+------+------+------+------|
   * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
   * |------+------+------+------+------+------+------+------+------+------+------+------|
-  * | Ctrl | Alt  | GUI  |Short | Func |    Space    | Symb | Left | Down |  Up  |Right |
+  * | Ctrl | Alt  | GUI  |LShort| Func |    Space    | Symb |RShort| GUI  | Left |Right |
   * `-----------------------------------------------------------------------------------'
   */
 [_qwerty] = LAYOUT_planck_mit(
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  RSHORT,  KC_RGUI, KC_UP,   KC_RGHT
+    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  RSHORT,  KC_RGUI, KC_LEFT, KC_RGHT
 ),
 
  /* _symbol

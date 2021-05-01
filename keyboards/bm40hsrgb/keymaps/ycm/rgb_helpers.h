@@ -14,6 +14,17 @@ void set_rgb(int led_id, int r, int g, int b) {
   rgb_matrix_set_color(led_id, r_adj,  g_adj, b_adj);
 }
 
+void _lctl_rgb_on(void) {
+  for (int i = 0; i <= 11; i++)
+    set_rgb(i, 10, 10, 0);
+  for (int i = 12; i <= 23; i++)
+    set_rgb(i, 10, 5, 1);
+  for (int i = 24; i <= 35; i++)
+    set_rgb(i, 8, 1, 1);
+  for (int i = 36; i <= 46; i++)
+    set_rgb(i, 10, 2, 10);
+}
+
 void _lgui_rgb_on(void) {
   set_rgb(1, 9, 0, 0); // q
   set_rgb(2, 9, 0, 0); // w
@@ -22,44 +33,24 @@ void _lgui_rgb_on(void) {
   set_rgb(30, 0, 7, 9); // n
 }
 
-void _lctl_rgb_on(void) {
-  for (int i = 0; i <= 11; i++) {
-    set_rgb(i, 9, 1, 1);
-    if (i % 2 == 0)
-      set_rgb(i, 1, 9, 1);
-  }
-  for (int i = 12; i <= 23; i++) {
-    set_rgb(i, 1, 9, 1);
-    if (i % 2 == 0)
-      set_rgb(i, 9, 1, 1);
-  }
-  for (int i = 24; i <= 35; i++) {
-    set_rgb(i, 9, 1, 1);
-    if (i % 2 == 0)
-      set_rgb(i, 1, 9, 1);
-  }
-  for (int i = 36; i <= 41; i++) {
-    set_rgb(i, 1, 9, 1);
-    if (i % 2 == 0)
-      set_rgb(i, 9, 1, 1);
-  }
-  for (int i = 42; i <= 46; i++) {
-    set_rgb(i, 9, 1, 1);
-    if (i % 2 == 0)
-      set_rgb(i, 1, 9, 1);
-  }
+void _rgui_rgb_on(void) {
+  set_rgb(9, 9, 4, 0);  // o
+  set_rgb(10, 9, 4, 0); // p
+  set_rgb(21, 0, 7, 9); // l
+  set_rgb(34, 1, 9, 1); // /
 }
 
 void _scln_rgb_on(void) {
-  for (int i = 18; i <= 21; i++) {
+  for (int i = 6; i <= 9; i++) {
     set_rgb(i, 9, 9, 9);
+    set_rgb(i + 12, 9, 9, 9);
   }
 }
 
 void _symbol_rgb_on(void) {
   // numpad
   set_rgb(39, 0, 7, 9);
-  for (int i = 1; i <= 3; i++) {
+  for (int i = 1; i <= 3; i++) {;;
     set_rgb(i, 0, 7, 9);
     set_rgb(i + 12, 0, 7, 9);
     set_rgb(i + 24, 0, 7, 9);
