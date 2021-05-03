@@ -51,34 +51,59 @@ void _scln_rgb_on(void) {
   set_rgb(15, 9, 9, 9);
 }
 
+void _macro_rgb_on(void) {
+  // a
+  set_rgb(13, 1, 9, 1);
+
+  // e
+  set_rgb(3, 1, 9, 1);
+
+  // f
+  set_rgb(16, 1, 9, 1);
+  
+  // i
+  set_rgb(8, 1, 9, 1);
+
+  // o
+  set_rgb(9, 0, 7, 9);
+
+  // p
+  set_rgb(10, 0, 7, 9);
+
+  //
+  set_rgb(23, 1, 9, 1);
+}
+
 void _symbol_rgb_on(void) {
-  // numpad
-  set_rgb(40, 0, 7, 9);
-  for (int i = 2; i <= 4; i++) {;;
+  // number row
+  for (int i = 1; i <= 10; i++) {
     set_rgb(i, 0, 7, 9);
-    set_rgb(i + 12, 0, 7, 9);
-    set_rgb(i + 24, 0, 7, 9);
   }
 
-  // parens + braces
-  set_rgb(7, 9, 4, 0);
-  set_rgb(8, 9, 4, 0);
+  // brackets
   set_rgb(21, 9, 4, 0);
   set_rgb(22, 9, 4, 0);
-  set_rgb(30, 9, 4, 0);
-  set_rgb(31, 9, 4, 0);
 
-  // other latex/markdown/programming symbols
-  set_rgb(18, 9, 1, 1);
-  set_rgb(20, 9, 1, 1);
-  set_rgb(19, 1, 9, 1);
-  set_rgb(6, 0, 7, 9);
-  set_rgb(1, 0, 7, 9);
+  // backslash
+  set_rgb(23, 1, 9, 1);
+
+  // minus, equals
+  set_rgb(19, 9, 4, 0);
+  set_rgb(20, 9, 4, 0);
+
+  // dollar sign
+  set_rgb(31, 1, 9, 1);
+
+  // circumflex
+  set_rgb(30, 8, 4, 0);
+
+  // grave accent
+  set_rgb(12, 8, 0, 8);
 }
 
 void _lshort_rgb_on(void) {
   // cmd + numbers
-  for (int i = 2; i <= 4; i++) {
+  for (int i = 1; i <= 3; i++) {
     set_rgb(i, 9, 2, 2);
     set_rgb(i + 12, 9, 2, 2);
     set_rgb(i + 24, 9, 2, 2);
