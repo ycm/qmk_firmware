@@ -142,18 +142,18 @@ void _functn_rgb_on(void) {
     set_rgb(i, 6, 0, 9);
     set_rgb(i + 12, 6, 3, 9);
     set_rgb(i + 24, 6, 3, 9);
-    set_rgb(i + 36, 6, 3, 9);
+    set_rgb(i + 35, 6, 3, 9);
   }
 
-  // mouse
-  set_rgb(2, 9, 9, 9);
-  set_rgb(13, 9, 9, 9);
-  set_rgb(14, 9, 9, 9);
-  set_rgb(15, 9, 9, 9);
-  set_rgb(1, 9, 4, 0);
-  set_rgb(3, 9, 4, 0);
-  set_rgb(4, 9, 4, 0);
-  set_rgb(16, 9, 4, 0);
+  // // mouse
+  // set_rgb(2, 9, 9, 9);
+  // set_rgb(13, 9, 9, 9);
+  // set_rgb(14, 9, 9, 9);
+  // set_rgb(15, 9, 9, 9);
+  // set_rgb(1, 9, 4, 0);
+  // set_rgb(3, 9, 4, 0);
+  // set_rgb(4, 9, 4, 0);
+  // set_rgb(16, 9, 4, 0);
 
   //delete key
   set_rgb(11, 9, 2, 0);

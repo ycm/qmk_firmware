@@ -2,11 +2,13 @@
  * 4/27/2021
  */
 #include QMK_KEYBOARD_H
+#include "config.h"
 #include "rgb_helpers.h"
 #include "key_definitions.h"
 #include "arrow_handlers.h"
 #include "misc_shortcuts.h"
 #include "text_handlers.h"
+// #include "print.h"
 
 enum layers {
   _qwerty,
@@ -15,6 +17,21 @@ enum layers {
   _functn, // mouse + media controls
   _keybrd
 };
+
+LEADER_EXTERNS();
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    SEQ_THREE_KEYS(KC_C, KC_I, KC_W) {
+      SEND_STRING(SS_DOWN(X_LALT));
+      SEND_STRING(SS_TAP(X_RGHT));
+      SEND_STRING(SS_TAP(X_BSPC));
+      SEND_STRING(SS_UP(X_LALT));
+    }
+  }
+}
 
 enum custom_keycodes {
   MACRO = SAFE_RANGE
@@ -27,6 +44,16 @@ bool scln_is_pressed = false;
 bool arrow_keys_were_pressed = false;
 uint16_t scln_pressed_time;
 bool macro_is_pressed = false;
+
+/*
+void keyboard_post_init_user(void) {
+  // Customise these values to desired behaviour
+  debug_enable=true;
+  // debug_matrix=true;
+  //debug_keyboard=true;
+  //debug_mouse=true;
+}
+*/
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -66,7 +93,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
 
     case KC_W:
-      return handle_arrow_key(record->event.pressed, KC_W, KC_HOME, KC_NO);
+      if (!leading)
+        return handle_arrow_key(record->event.pressed, KC_W, KC_HOME, KC_NO);
+      return true;
 
     case KC_A: 
       if (scln_is_pressed)
@@ -82,7 +111,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return handle_arrow_key(record->event.pressed, KC_D, KC_PGDN, KC_NO);
 
     case KC_F:
-      return handle_text_F(record->event.pressed);
+      if (!leading)
+        return handle_text_F(record->event.pressed);
+      return true;
 
     case KC_E:
       return handle_text_E(record->event.pressed);
@@ -151,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
     KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT ,
-    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  FUNCTN,  KC_SPC,           SYMBOL,  MACRO,   KC_RGUI, KC_LEFT, KEYBRD
+    KC_LCTL, KC_LALT, KC_LGUI, LSHORT,  KC_LEAD, KC_SPC,           SYMBOL,  MACRO,   KC_RGUI, FUNCTN,  KEYBRD
 ),
 
  /* _symbol
@@ -204,10 +235,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_functn] = LAYOUT_planck_mit(
-    _______, KC_BTN1, KC_MS_U, KC_BTN2, KC_WH_U, _______, _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_DEL, 
-    _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D, _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, 
+    _______, _______, _______, _______, _______, _______, _______, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_DEL, 
+    _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, 
     _______, _______, _______, _______, _______, _______, _______, KC_F4,   KC_F5,   KC_F6,   _______, _______,
-    _______, _______, _______, _______, _______, _______,          _______, KC_BRID, KC_BRIU, KC_F3,   _______
+    _______, _______, _______, _______, _______, _______,          KC_BRID, KC_BRIU, KC_F3,   _______, _______
 ),
 
 /* Adjust (Lower + Raise)

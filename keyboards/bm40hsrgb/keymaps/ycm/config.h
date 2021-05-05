@@ -1,6 +1,7 @@
 // qmk flash -kb bm40hsrgb -km ycm
 
-#define TAPPING_TERM 80
+#define LEADER_TIMEOUT 300
+#define LEADER_PER_KEY_TIMING
 
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_LAYERS_OVERRIDE_RGB_OFF
@@ -8,9 +9,9 @@
 
 #define RGBLIGHT_LIMIT_VAL 10
 
-//bootmagic
-#define BOOTMAGIC_KEY_SALT KC_V
-#define BOOTMAGIC_KEY_EEPROM_CLEAR KC_Q
+// //bootmagic
+// #define BOOTMAGIC_KEY_SALT KC_V
+// #define BOOTMAGIC_KEY_EEPROM_CLEAR KC_Q
 
 #ifdef RGB_MATRIX_ENABLE
 
